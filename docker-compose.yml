@@ -1,0 +1,25 @@
+services:
+  backend:
+    build: ./backend
+    volumes:
+      - ./backend/app/input:/app/input
+      - ./backend/app/output:/app/output
+      - ./backend/app/model:/app/model
+    environment:
+      - MIDI_DIR=/app/input
+      - OUTPUT_DIR=/app/output
+      - MODEL_PATH=/app/model/trained_model.h5
+    ports:
+      - "4050:4050"
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://backend:4050
+
+volumes:
+  input:
+  output:
+  model:
