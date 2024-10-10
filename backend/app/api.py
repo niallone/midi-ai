@@ -10,14 +10,12 @@ app = Flask(__name__)
 
 
 
-allowed_origins = {"https://api.melodygenerator.fun", "http://localhost:3000"}
+allowed_origins = {"https://melodygenerator.fun", "http://localhost:3000"}
 
-# Configure CORS with the callable
-app = CORS(app, 
-    allow_origin=allowed_origins,
-    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allow_headers=["Content-Type", "Authorization"],
-    allow_credentials=True
+# Configure CORS
+CORS(app, 
+    resources={r"/*": {"origins": list(allowed_origins)}},
+    supports_credentials=True
 )
 
 print("Flask app is starting up!", flush=True)
