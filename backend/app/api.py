@@ -40,7 +40,8 @@ else:
 def get_models():
     print(f"Received request for /api/models", flush=True)
     print(f"Available models: {list(models.keys())}", flush=True)
-    return jsonify([{'id': model_id, 'name': model_id} for model_id in models.keys()])
+    return jsonify([{"id":"melody_generator_lstm_v3","name":"melody_generator_lstm_v3"},{"id":"melody_generator_lstm_v2","name":"melody_generator_lstm_v2"},{"id":"trained_model","name":"trained_model"}])
+    #return jsonify([{'id': model_id, 'name': model_id} for model_id in models.keys()])
 
 @app.route('/generate', methods=['POST'])
 def generate_melody_api():
