@@ -1,9 +1,10 @@
 import os
 import time
+import pickle
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
+from tensorflow.keras.models import load_model
 from melody_generator import generate_melody, create_midi
-from model_trainer import load_or_train_model
 
 app = Flask(__name__)
 CORS(app)
@@ -11,11 +12,9 @@ CORS(app)
 print("Flask app is starting up!", flush=True)
 
 # Load environment variables
-MIDI_DIR = os.environ.get('MIDI_DIR', '/app/input')
 OUTPUT_DIR = os.environ.get('OUTPUT_DIR', '/app/output')
 MODEL_DIR = os.environ.get('MODEL_DIR', '/app/model')
 
-print(f"MIDI_DIR: {MIDI_DIR}", flush=True)
 print(f"OUTPUT_DIR: {OUTPUT_DIR}", flush=True)
 print(f"MODEL_DIR: {MODEL_DIR}", flush=True)
 
@@ -27,10 +26,15 @@ if os.path.exists(MODEL_DIR):
         if filename.endswith('.h5'):
             model_id = os.path.splitext(filename)[0]
             model_path = os.path.join(MODEL_DIR, filename)
+            data_path = f"{model_path}_data.pkl"
             print(f"Found model file: {model_path}", flush=True)
+            print(f"Corresponding data file: {data_path}", flush=True)
             try:
-                models[model_id] = load_or_train_model(MIDI_DIR, model_path)
-                print(f"Successfully loaded model: {model_id}", flush=True)
+                model = load_model(model_path)
+                with open(data_path, 'rb') as f:
+                    network_input, pitchnames, note_to_int, n_vocab = pickle.load(f)
+                models[model_id] = (model, network_input, pitchnames, note_to_int, n_vocab)
+                print(f"Successfully loaded model and data: {model_id}", flush=True)
             except Exception as e:
                 print(f"Error loading model {model_id}: {str(e)}", flush=True)
 else:
@@ -40,8 +44,7 @@ else:
 def get_models():
     print(f"Received request for /api/models", flush=True)
     print(f"Available models: {list(models.keys())}", flush=True)
-    return jsonify([{"id":"melody_generator_lstm_v3","name":"melody_generator_lstm_v3"},{"id":"melody_generator_lstm_v2","name":"melody_generator_lstm_v2"},{"id":"trained_model","name":"trained_model"}])
-    #return jsonify([{'id': model_id, 'name': model_id} for model_id in models.keys()])
+    return jsonify([{'id': model_id, 'name': model_id} for model_id in models.keys()])
 
 @app.route('/generate', methods=['POST'])
 def generate_melody_api():
