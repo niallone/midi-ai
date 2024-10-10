@@ -6,7 +6,7 @@ import { MelodyGenerator } from '../components/melody/MelodyGenerator';
 import { MelodyList } from '../components/melody/MelodyList';
 
 /**
- * MainContent is a styled component that centers the main content
+ * MainContent is a styled component that centres the main content
  * and sets a maximum width for better readability.
  */
 const MainContent = styled.main`
@@ -17,7 +17,13 @@ const MainContent = styled.main`
 
 /**
  * Home is the main page component of our application.
- * It renders the header, main content, and footer.
+ * It renders the header, main content (including the MelodyGenerator and MelodyList), and footer.
+ * 
+ * This component is responsible for:
+ * 1. Setting the page title and meta description
+ * 2. Rendering the overall page structure
+ * 3. Including the MelodyGenerator for creating new melodies
+ * 4. Displaying the MelodyList of generated melodies
  * 
  * @returns {JSX.Element} The home page structure
  */

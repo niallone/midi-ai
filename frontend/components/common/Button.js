@@ -1,8 +1,15 @@
 import styled from 'styled-components';
 
 /**
- * Button is a styled component that creates a customizable button.
- * It uses theme colors and applies hover and disabled states.
+ * Button is a styled component that creates a customisable button.
+ * It utilises theme colours and applies hover and disabled states.
+ *
+ * @component
+ * @example
+ * <Button onClick={() => console.log('Button clicked')}>Click me</Button>
+ *
+ * @example
+ * <Button disabled>Disabled Button</Button>
  */
 const Button = styled.button`
   background-color: ${({ theme }) => theme.colors.primary};
@@ -14,10 +21,12 @@ const Button = styled.button`
   cursor: pointer;
   transition: background-color 0.3s ease;
 
+  /* Hover state */
   &:hover {
     background-color: ${({ theme }) => theme.colors.primaryDark};
   }
 
+  /* Disabled state */
   &:disabled {
     background-color: ${({ theme }) => theme.colors.disabled};
     cursor: not-allowed;

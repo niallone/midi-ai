@@ -7,6 +7,11 @@ import '../styles/globals.css';
  * MyApp is the top-level component in our Next.js application.
  * It wraps all other components and provides global functionality.
  * 
+ * This component is responsible for:
+ * 1. Applying the global CSS styles
+ * 2. Providing the theme via ThemeProvider from styled-components
+ * 3. Providing the MelodyContext via MelodyProvider
+ * 
  * @param {Object} props - The component props
  * @param {React.Component} props.Component - The active page component
  * @param {Object} props.pageProps - The initial props preloaded for the page
@@ -25,4 +30,4 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
-export default MyApp; 
+export default MyApp;

@@ -8,7 +8,7 @@ import { ServerStyleSheet } from 'styled-components';
 export default class MyDocument extends Document {
   /**
    * getInitialProps is used to render pages on the server.
-   * Here, we're collecting styles from styled-components.
+   * Here, we're collecting styles from styled-components to prevent FOUC (Flash of Unstyled Content).
    * 
    * @param {Object} ctx - The context object
    * @returns {Object} The initial props with collected styles

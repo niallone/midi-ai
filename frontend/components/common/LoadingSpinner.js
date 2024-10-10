@@ -1,7 +1,8 @@
 import styled, { keyframes } from 'styled-components';
 
 /**
- * Animation for the spinning effect
+ * Animation for the spinning effect.
+ * Creates a 360-degree rotation animation.
  */
 const spin = keyframes`
   0% { transform: rotate(0deg); }
@@ -9,7 +10,8 @@ const spin = keyframes`
 `;
 
 /**
- * Spinner is a styled component that creates a rotating loading indicator
+ * Spinner is a styled component that creates a rotating loading indicator.
+ * It uses the theme colours for styling and the spin animation for rotation.
  */
 const Spinner = styled.div`
   border: 4px solid ${({ theme }) => theme.colors.lightGray};
@@ -21,9 +23,18 @@ const Spinner = styled.div`
 `;
 
 /**
- * LoadingSpinner component that renders a spinning loading indicator
- * 
- * @returns {JSX.Element} The loading spinner
+ * LoadingSpinner component that renders a spinning loading indicator.
+ * Use this component to indicate that content is loading or an action is in progress.
+ *
+ * @component
+ * @example
+ * <LoadingSpinner />
+ *
+ * @example
+ * // Inside a container with custom styles
+ * <div style={{ display: 'flex', justifyContent: 'center', padding: '20px' }}>
+ *   <LoadingSpinner />
+ * </div>
  */
 export default function LoadingSpinner() {
   return <Spinner />;

@@ -2,7 +2,14 @@ import styled from 'styled-components';
 
 /**
  * Card is a styled component that creates a simple card layout.
- * It applies a background color, border radius, and box shadow.
+ * It applies a background colour, border radius, and box shadow to create a raised effect.
+ *
+ * @component
+ * @example
+ * <Card>
+ *   <h2>Card Title</h2>
+ *   <p>Card content goes here.</p>
+ * </Card>
  */
 const Card = styled.div`
   background-color: ${({ theme }) => theme.colors.white};

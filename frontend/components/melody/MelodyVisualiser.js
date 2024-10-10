@@ -1,11 +1,23 @@
 import React, { useEffect, useRef } from 'react';
 import { Midi } from '@tonejs/midi';
 
+/**
+ * MelodyVisualiser component that renders a visual representation of a MIDI file.
+ * It creates a piano roll-style visualisation using HTML5 canvas.
+ *
+ * @component
+ * @param {Object} props - The component props
+ * @param {string} props.midiUrl - The URL of the MIDI file to visualise
+ *
+ * @example
+ * <MelodyVisualiser midiUrl="https://example.com/path/to/midi/file.mid" />
+ */
 const MelodyVisualiser = ({ midiUrl }) => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
     const loadAndVisualiseMidi = async () => {
+      // Fetch and parse the MIDI file
       const response = await fetch(midiUrl);
       const arrayBuffer = await response.arrayBuffer();
       const midi = new Midi(arrayBuffer);
@@ -31,6 +43,7 @@ const MelodyVisualiser = ({ midiUrl }) => {
           const y = canvas.height - (note.midi - 21) * noteHeight;
           const width = note.durationTicks * pixelsPerTick;
           
+          // Use HSL colour to represent different pitches
           ctx.fillStyle = `hsl(${note.midi * 2}, 100%, 50%)`;
           ctx.fillRect(x, y, width, noteHeight);
         });
