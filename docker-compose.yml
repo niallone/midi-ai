@@ -65,7 +65,7 @@ services:
 
   backend:
     build: ./backend
-    platform: linux/arm64/v8
+    #platform: linux/arm64/v8
     volumes:
       - ./backend/app/input:/app/input
       - ./backend/app/output:/app/output
@@ -93,7 +93,7 @@ services:
       - OUTPUT_DIR=/app/model
     networks:
       - melodygenerator-net
-    platform: linux/arm64/v8
+    #platform: linux/arm64/v8
     # deploy:
     #   resources:
     #     reservations:
