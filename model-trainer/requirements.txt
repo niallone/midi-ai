@@ -1,0 +1,4 @@
+music21==7.3.3
+numpy==1.23.5
+inquirer==2.10.1
+tensorflow==2.12.0

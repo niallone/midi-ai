@@ -1,13 +1,10 @@
-FROM python:3.9-slim
+FROM python:3.10-slim
 
 WORKDIR /app
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
-    build-essential \
-    libssl-dev \
-    libffi-dev \
-    python3-dev \
+    libsndfile1 \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .

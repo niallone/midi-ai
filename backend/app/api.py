@@ -11,7 +11,7 @@ CORS(app)
 # Load environment variables
 MIDI_DIR = os.environ.get('MIDI_DIR', '/app/input')
 OUTPUT_DIR = os.environ.get('OUTPUT_DIR', '/app/output')
-MODEL_PATH = os.environ.get('MODEL_PATH', '/app/model/trained_model.h5')
+MODEL_PATH = os.environ.get('MODEL_PATH', '/app/model/melody_generator_lstm_v1.h5')
 
 print(f"Debug: MIDI_DIR = {MIDI_DIR}", flush=True)
 print(f"Debug: OUTPUT_DIR = {OUTPUT_DIR}", flush=True)

@@ -7,6 +7,19 @@ from tensorflow.keras.layers import LSTM, Dense, Dropout
 from tensorflow.keras.utils import to_categorical
 import pickle
 
+import tensorflow as tf
+
+# Configure TensorFlow to use the GPU
+gpus = tf.config.experimental.list_physical_devices('GPU')
+if gpus:
+    try:
+        for gpu in gpus:
+            tf.config.experimental.set_memory_growth(gpu, True)
+        logical_gpus = tf.config.experimental.list_logical_devices('GPU')
+        print(len(gpus), "Physical GPUs,", len(logical_gpus), "Logical GPUs", flush=True)
+    except RuntimeError as e:
+        print(e)
+
 def prepare_sequences(notes, sequence_length=100):
     if not notes:
         raise ValueError("The notes list is empty. No data to process.")
@@ -57,9 +70,9 @@ def train_model(model, network_input, network_output, epochs=50, batch_size=64):
     model.fit(network_input, network_output, epochs=epochs, batch_size=batch_size, callbacks=callbacks_list)
 
 def prepare_data(midi_directory):
-    print(f"Looking for MIDI files in: {midi_directory}")
+    print(f"Looking for MIDI files in: {midi_directory}", flush=True)
     midi_files = [f for f in os.listdir(midi_directory) if f.endswith(".mid")]
-    print(f"Found {len(midi_files)} MIDI files: {midi_files}")
+    print(f"Found {len(midi_files)} MIDI files: {midi_files}", flush=True)
 
     if not midi_files:
         raise ValueError("No MIDI files found. Please add some MIDI files to the midi_files directory.")
@@ -67,7 +80,7 @@ def prepare_data(midi_directory):
     notes = []
     for file in midi_files:
         midi_path = os.path.join(midi_directory, file)
-        print(f"Processing file: {midi_path}")
+        print(f"Processing file: {midi_path}", flush=True)
         try:
             midi = converter.parse(midi_path)
             notes_to_parse = midi.flat.notes
@@ -77,9 +90,9 @@ def prepare_data(midi_directory):
                 elif isinstance(element, chord.Chord):
                     notes.append('.'.join(str(n) for n in element.normalOrder))
         except Exception as e:
-            print(f"Error processing {file}: {str(e)}")
+            print(f"Error processing {file}: {str(e)}", flush=True)
 
-    print(f"Total notes extracted: {len(notes)}")
+    print(f"Total notes extracted: {len(notes)}", flush=True)
 
     if not notes:
         raise ValueError("No notes were extracted from the MIDI files. Please check if the MIDI files are valid.")

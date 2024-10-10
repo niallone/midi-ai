@@ -48,11 +48,6 @@ export default function Home() {
         <MelodyList melodies={melodies} />
       </main>
 
-      <footer className={styles.footer}>
-        <a href="https://github.com/yourusername/melody-generator" target="_blank" rel="noopener noreferrer">
-          View on GitHub
-        </a>
-      </footer>
     </div>
   );
 }
