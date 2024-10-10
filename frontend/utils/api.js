@@ -31,11 +31,11 @@ export async function fetchModels() {
  */
 export async function generateMelody(modelId) {
   try {
-    const response = await axios.post(`${API_URL}/generate`, { model_id: modelId });
+    const response = await axios.post(`${API_URL}/api/generate`, { model_id: modelId });
     return {
       id: Date.now(),
       name: response.data.file_name,
-      url: `${API_URL}/download/${response.data.file_name}`,
+      url: `${API_URL}/api/download/${response.data.file_name}`,
     };
   } catch (error) {
     console.error('Error generating melody:', error);

@@ -7,9 +7,13 @@ RUN apt-get update && apt-get install -y \
     libsndfile1 \
     && rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt .
+# Copy the entire project directory into /app
+COPY . /app
+
+# Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY ./app .
+# Set the PYTHONPATH
+ENV PYTHONPATH=/app
 
-CMD ["python", "api.py"]
+CMD ["python", "run.py"]

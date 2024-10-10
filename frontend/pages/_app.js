@@ -4,7 +4,7 @@ import theme from '../styles/theme';
 import '../styles/globals.css';
 
 /**
- * MyApp is the top-level component in our Next.js application.
+ * MelodyGenerator is the top-level component in our Next.js application.
  * It wraps all other components and provides global functionality.
  * 
  * This component is responsible for:
@@ -17,7 +17,7 @@ import '../styles/globals.css';
  * @param {Object} props.pageProps - The initial props preloaded for the page
  * @returns {React.Component} The wrapped application component
  */
-function MyApp({ Component, pageProps }) {
+function MelodyGenerator({ Component, pageProps }) {
   return (
     // ThemeProvider allows us to use a consistent theme across our styled-components
     <ThemeProvider theme={theme}>
@@ -30,4 +30,4 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
-export default MyApp;
+export default MelodyGenerator;

@@ -70,12 +70,8 @@ services:
       - ./backend/app/input:/app/input
       - ./backend/app/output:/app/output
       - ./backend/app/model:/app/model
-    environment:
-      - MIDI_DIR=/app/input
-      - OUTPUT_DIR=/app/output
-      - VIRTUAL_HOST=api.melodygenerator.fun
-      - VIRTUAL_PORT=4050
-      - LETSENCRYPT_HOST=api.melodygenerator.fun
+    env_file:
+      - ./backend/.env
     networks:
       - melodygenerator-net
     ports:
