@@ -109,3 +109,7 @@ volumes:
   input:
   output:
   model:
+
+networks:
+  melodygenerator-net:
+    driver: bridge
