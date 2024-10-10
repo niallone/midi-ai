@@ -15,6 +15,21 @@ print("Flask app is starting up!", flush=True)
 OUTPUT_DIR = os.environ.get('OUTPUT_DIR', '/app/output')
 MODEL_DIR = os.environ.get('MODEL_DIR', '/app/model')
 
+print("Checking model files:", flush=True)
+for file in os.listdir(MODEL_DIR):
+    file_path = os.path.join(MODEL_DIR, file)
+    size = os.path.getsize(file_path)
+    permissions = oct(os.stat(file_path).st_mode)[-3:]
+    print(f"  {file}: size {size} bytes, permissions {permissions}", flush=True)
+
+def check_file_contents(file_path):
+    try:
+        with open(file_path, 'rb') as f:
+            header = f.read(8)
+        print(f"File {file_path} header: {header.hex()}", flush=True)
+    except Exception as e:
+        print(f"Error reading {file_path}: {str(e)}", flush=True)
+
 print(f"OUTPUT_DIR: {OUTPUT_DIR}", flush=True)
 print(f"MODEL_DIR: {MODEL_DIR}", flush=True)
 
@@ -26,7 +41,9 @@ if os.path.exists(MODEL_DIR):
         if filename.endswith('.h5'):
             model_id = os.path.splitext(filename)[0]
             model_path = os.path.join(MODEL_DIR, filename)
+            check_file_contents(model_path)
             data_path = f"{model_path}_data.pkl"
+            check_file_contents(data_path)
             print(f"Found model file: {model_path}", flush=True)
             print(f"Corresponding data file: {data_path}", flush=True)
             try:
