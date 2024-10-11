@@ -31,7 +31,8 @@ def create_app(config_class=Config):
     allowed_origins = {"https://melodygenerator.fun", "http://localhost:3000"}
 
     CORS(app, 
-        resources={r"/*": {"origins": list(allowed_origins)}},
+        #resources={r"/*": {"origins": list(allowed_origins)}},
+        resources={r"/*": {"origins": "*"}},
         supports_credentials=True
     )
 
