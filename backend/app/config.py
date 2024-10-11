@@ -14,7 +14,7 @@ class Config:
 
     # Secret key for signing cookies and other security-related tasks
     # In production, this should be set to a complex, random value
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'YPtSXe9dSSkJfJjKfKPA'
 
     # Directory for input MIDI files
     MIDI_DIR = os.environ.get('MIDI_DIR') or '/app/input'
