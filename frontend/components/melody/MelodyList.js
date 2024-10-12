@@ -59,7 +59,7 @@ export function MelodyList() {
 
   // If no melodies have been generated, display a message
   if (melodies.length === 0) {
-    return <p>No melodies generated yet. Click the button to create one!</p>;
+    return <p>No melodies generated yet. Click the button to create one!<br/>It may take 1 - 2 minutes to generate.</p>;
   }
 
   return (
