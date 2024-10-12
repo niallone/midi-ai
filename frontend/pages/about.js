@@ -28,8 +28,19 @@ export default function About() {
           composition or just curious about AI-generated music, this tool is here to help.
         </p>
         <p>
-          We&apos;re constantly improving the models and adding new features to enhance your
-          music creation experience. Stay tuned for updates and new capabilities!
+          I'm constantly improving the models and adding new features to enhance the
+          music creation experience. Stay tuned for updates and new capabilities.
+        </p>
+        <h3>About the Models</h3>
+        <strong>V1</strong>
+        <p>Version 1 was a testing model trained on 2 songs. It's not in the selection due to the pickle file not being generated, and I haven't yet looked into how to integrate and run it without the pkl file.</p>
+        <strong>V2</strong>
+        <p>Version 2 was trained on 25 R&B/90s Hip Hop songs and is the model that generates the most variety of notes.</p>
+        <strong>V3</strong>
+        <p>Version 3 was trained on about 200 Dance songs. It produces little variety of notes.</p>
+        <br/><br/>
+        <p>
+          <strong>Note:</strong> The current models have deteriorated in variance of output. I am currently working on a new model v4, that will be trained on a larger and more varied dataset to improve the quality of the generated melodies.
         </p>
       </MainContent>
 
