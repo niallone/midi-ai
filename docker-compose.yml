@@ -24,6 +24,7 @@ services:
       - ./backend/proxy/vhost.d:/etc/nginx/vhost.d
       - ./backend/proxy/html:/usr/share/nginx/html
       - ./backend/proxy/dhparam:/etc/nginx/dhparam
+      - ./nginx-proxy-config:/etc/nginx/conf.d
     networks:
       - melodygenerator-net
     deploy: *common-deploy
@@ -72,6 +73,9 @@ services:
       - VIRTUAL_HOST=api.melodygenerator.fun
       - VIRTUAL_PORT=4050
       - LETSENCRYPT_HOST=api.melodygenerator.fun
+      - PROXY_READ_TIMEOUT=300s
+      - PROXY_SEND_TIMEOUT=300s
+      - PROXY_CONNECT_TIMEOUT=300s
     env_file:
       - ./backend/api/.env
       - ./backend/postgres/.env

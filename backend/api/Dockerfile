@@ -7,6 +7,8 @@ ENV FLASK_RUN_HOST=0.0.0.0
 ENV FLASK_RUN_PORT=4050
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONPATH=/usr/src/api:$PYTHONPATH
+ENV HYPERCORN_TIMEOUT=300
+
 
 RUN apt-get update && apt-get install -y \
     libsndfile1 \
