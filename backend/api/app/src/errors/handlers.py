@@ -19,7 +19,7 @@ def register_error_handlers(app):
     """
     Register error handlers for the Quart application.
 
-    This function sets up handlers for specific error types, APIError, and general exceptions.
+    This function sets up handlers for specific error types, `APIError`, and general exceptions.
     It ensures that all errors are returned in a consistent JSON format.
 
     Args:
@@ -27,68 +27,68 @@ def register_error_handlers(app):
 
     Note:
         This function should be called after the Quart app is created,
-        typically in the app factory or initialisation code.
+        typically in the app factory or initialization code.
     """
 
     @app.errorhandler(NotFoundError)
-    def handle_not_found_error(error):
-        """Handle NotFoundError exceptions."""
+    async def handle_not_found_error(error):
+        """Handle `NotFoundError` exceptions by returning a 404 response with a JSON payload."""
         return jsonify(error.to_dict()), 404
 
     @app.errorhandler(BadRequestError)
-    def handle_bad_request_error(error):
-        """Handle BadRequestError exceptions."""
+    async def handle_bad_request_error(error):
+        """Handle `BadRequestError` exceptions by returning a 400 response with a JSON payload."""
         return jsonify(error.to_dict()), 400
 
     @app.errorhandler(MethodNotAllowedError)
-    def handle_method_not_allowed_error(error):
-        """Handle MethodNotAllowedError exceptions."""
+    async def handle_method_not_allowed_error(error):
+        """Handle `MethodNotAllowedError` exceptions by returning a 405 response with a JSON payload."""
         return jsonify(error.to_dict()), 405
 
     @app.errorhandler(DatabaseError)
-    def handle_database_error(error):
-        """Handle DatabaseError exceptions."""
+    async def handle_database_error(error):
+        """Handle `DatabaseError` exceptions by returning a 500 response with a JSON payload."""
         return jsonify(error.to_dict()), 500
 
     @app.errorhandler(AuthenticationError)
-    def handle_authentication_error(error):
-        """Handle AuthenticationError exceptions."""
+    async def handle_authentication_error(error):
+        """Handle `AuthenticationError` exceptions by returning a 401 response with a JSON payload."""
         return jsonify(error.to_dict()), 401
 
     @app.errorhandler(AuthorisationError)
-    def handle_authorisation_error(error):
-        """Handle AuthorisationError exceptions."""
+    async def handle_authorisation_error(error):
+        """Handle `AuthorisationError` exceptions by returning a 403 response with a JSON payload."""
         return jsonify(error.to_dict()), 403
 
     @app.errorhandler(ValidationError)
-    def handle_validation_error(error):
-        """Handle ValidationError exceptions."""
+    async def handle_validation_error(error):
+        """Handle `ValidationError` exceptions by returning a 422 response with a JSON payload."""
         return jsonify(error.to_dict()), 422
 
     @app.errorhandler(APIError)
-    def handle_api_error(error):
+    async def handle_api_error(error):
         """
-        Handle APIError exceptions.
+        Handle `APIError` exceptions.
 
-        This handler catches all APIError instances and returns them
+        This handler catches all `APIError` instances and returns them
         as JSON responses with the appropriate status code.
 
         Args:
-            error (APIError): The caught APIError instance.
+            error (APIError): The caught `APIError` instance.
 
         Returns:
-            tuple: A tuple containing a JSON response and the error's status code.
+            Response: A Quart JSON response with the error details and status code.
         """
         response = jsonify(error.to_dict())
         response.status_code = error.status_code
         return response
 
     @app.errorhandler(Exception)
-    def handle_unexpected_error(error):
+    async def handle_unexpected_error(error):
         """
         Handle unexpected exceptions.
 
-        This is a catch-all handler for any exceptions that are not APIErrors.
+        This is a catch-all handler for any exceptions that are not `APIError` instances.
         It logs the error and returns a generic error message to avoid
         exposing sensitive information.
 
@@ -96,7 +96,7 @@ def register_error_handlers(app):
             error (Exception): The caught exception.
 
         Returns:
-            tuple: A tuple containing a JSON response and a 500 status code.
+            Response: A Quart JSON response with a generic error message and a 500 status code.
         """
         logger.exception('An unexpected error occurred.')
         error_details = {
