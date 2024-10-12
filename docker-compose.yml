@@ -24,7 +24,7 @@ services:
       - ./backend/proxy/vhost.d:/etc/nginx/vhost.d
       - ./backend/proxy/html:/usr/share/nginx/html
       - ./backend/proxy/dhparam:/etc/nginx/dhparam
-      - ./nginx-proxy-config:/etc/nginx/conf.d
+      - ./backend/nginx-proxy-config:/etc/nginx/conf.d
     networks:
       - melodygenerator-net
     deploy: *common-deploy
