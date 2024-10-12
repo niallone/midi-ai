@@ -18,6 +18,10 @@ a {
   text-decoration: none;
 }
 
+p {
+  padding: 8px 0;
+}
+
 /* Ensure all elements use border-box for consistent sizing */
 * {
   box-sizing: border-box;
