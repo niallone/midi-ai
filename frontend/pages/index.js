@@ -1,7 +1,5 @@
 import Head from 'next/head';
 import styled from 'styled-components';
-import { Header } from '../components/layout/Header';
-import { Footer } from '../components/layout/Footer';
 import { MelodyGenerator } from '../components/melody/MelodyGenerator';
 import { MelodyList } from '../components/melody/MelodyList';
 
@@ -36,15 +34,11 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Header />
-
       <MainContent>
         <h1>AI Melody Generator</h1>
         <MelodyGenerator />
         <MelodyList />
       </MainContent>
-
-      <Footer />
     </>
   );
 }

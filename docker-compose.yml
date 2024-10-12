@@ -63,15 +63,21 @@ services:
     deploy: *common-deploy
     <<: *common-timezone
 
-  backend:
-    build: ./backend
-    #platform: linux/arm64/v8
+  api:
+    build: ./backend/api
     volumes:
-      - ./backend/app/input:/app/input
-      - ./backend/app/output:/app/output
-      - ./backend/app/model:/app/model
+      - ./backend/api/app/output:/usr/src/api/app/output
+      - ./models:/usr/src/api/app/model
+    environment:
+      - VIRTUAL_HOST=api.melodygenerator.fun
+      - VIRTUAL_PORT=4050
+      - LETSENCRYPT_HOST=api.melodygenerator.fun
     env_file:
-      - ./backend/.env
+      - ./backend/api/.env
+      - ./backend/postgres/.env
+    depends_on:  
+      postgres:
+          condition: service_healthy
     networks:
       - melodygenerator-net
     ports:
@@ -83,7 +89,7 @@ services:
     build: ./model-trainer
     volumes:
       - ./backend/app/input:/app/input
-      - ./backend/app/model:/app/model
+      - ./models:/app/model
     environment:
       - INPUT_DIR=/app/input
       - OUTPUT_DIR=/app/model
@@ -100,11 +106,31 @@ services:
     stdin_open: true
     tty: true
     <<: *common-timezone
-
+  
+  postgres:
+    image: postgres:16
+    ports:
+      - 5432:5432
+    volumes:
+      - ./backend/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - postgres-data:/var/lib/postgresql/data
+    env_file:
+      - ./backend/postgres/.env
+    networks:
+      - melodygenerator-net
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "melodygenerator_user", "-d", "melodygenerator_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy: *common-deploy
+    <<: *common-timezone
+      
 volumes:
   input:
   output:
   model:
+  postgres-data:
 
 networks:
   melodygenerator-net:

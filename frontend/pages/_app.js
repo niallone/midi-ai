@@ -1,5 +1,6 @@
 import { ThemeProvider } from 'styled-components';
 import { MelodyProvider } from '../context/MelodyContext';
+import { Layout } from '../components/Layout';
 import theme from '../styles/theme';
 import '../styles/globals.css';
 
@@ -23,8 +24,11 @@ function MelodyGenerator({ Component, pageProps }) {
     <ThemeProvider theme={theme}>
       {/* MelodyProvider gives all child components access to our melody context */}
       <MelodyProvider>
-        {/* Render the active page component */}
+        <Layout>
+
+          {/* Render the active page component */}
         <Component {...pageProps} />
+        </Layout>
       </MelodyProvider>
     </ThemeProvider>
   );

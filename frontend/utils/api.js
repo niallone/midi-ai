@@ -14,7 +14,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4050';
  */
 export async function fetchModels() {
   try {
-    const response = await axios.get(`${API_URL}/api/models`);
+    const response = await axios.get(`${API_URL}/melody/models`);
     return response.data;
   } catch (error) {
     console.error('Error fetching models:', error);
@@ -31,11 +31,11 @@ export async function fetchModels() {
  */
 export async function generateMelody(modelId) {
   try {
-    const response = await axios.post(`${API_URL}/api/generate`, { model_id: modelId });
+    const response = await axios.post(`${API_URL}/melody/generate`, { model_id: modelId });
     return {
       id: Date.now(),
       name: response.data.file_name,
-      url: `${API_URL}/api/download/${response.data.file_name}`,
+      url: `${API_URL}/melody/download/${response.data.file_name}`,
     };
   } catch (error) {
     console.error('Error generating melody:', error);
