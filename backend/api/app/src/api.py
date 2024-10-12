@@ -27,7 +27,7 @@ async def create_api():
     
     # Configure CORS with the callable
     api = cors(api, 
-        allow_origins=allowed_origins,
+        allow_origin=allowed_origins,
         allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         allow_headers=["Content-Type", "Authorization"],
         allow_credentials=True,
