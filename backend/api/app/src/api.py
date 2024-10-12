@@ -27,11 +27,21 @@ async def create_api():
     
     # Configure CORS with the callable
     api = cors(api, 
-        allow_origin=allowed_origins,
+        allow_origins=allowed_origins,
         allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-        allow_headers=["Content-Type", "Authorization", "Access-Control-Allow-Origin"],
-        allow_credentials=True
+        allow_headers=["Content-Type", "Authorization"],
+        allow_credentials=True,
+        expose_headers="Access-Control-Allow-Origin"
     )
+    
+    # Add CORS headers to all responses
+    @api.after_request
+    def add_cors_headers(response):
+        origin = request.headers.get('Origin')
+        if origin in allowed_origins:
+            response.headers['Access-Control-Allow-Origin'] = origin
+        response.headers['Access-Control-Allow-Credentials'] = 'true'
+        return response
     
     # Configure logging
     setup_logging(api)
