@@ -93,7 +93,7 @@ services:
   model-trainer:
     build: ./model-trainer
     volumes:
-      - ./backend/app/input:/app/input
+      - ./models/training_data:/app/input
       - ./models:/app/model
     environment:
       - INPUT_DIR=/app/input

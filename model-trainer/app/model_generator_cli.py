@@ -256,6 +256,7 @@ def select_directory(base_path, prompt):
     str: The selected directory path, or None if no selection was made.
     """
     print(f"Selecting directory from {base_path}")
+    print(f"Directory contents: {os.listdir(base_path)}")
     directories = [d for d in os.listdir(base_path) if os.path.isdir(os.path.join(base_path, d))]
     if not directories:
         print(f"No directories found in {base_path}", flush=True)
