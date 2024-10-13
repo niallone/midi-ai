@@ -32,7 +32,7 @@ class ModelBuilder:
 
         # First LSTM layer
         model.add(LSTM(
-            256,  # Number of LSTM units
+            512,  # Number of LSTM units
             input_shape=(network_input.shape[1], network_input.shape[2]),
             return_sequences=True  # Return full sequence
         ))
@@ -53,7 +53,7 @@ class ModelBuilder:
         model.add(Dropout(0.3))
 
         # Third LSTM layer
-        model.add(LSTM(256))  # No return_sequences=True here
+        model.add(LSTM(512))  # No return_sequences=True here
         # This final LSTM layer returns only the last output, not the full sequence
 
         # Dense layer
@@ -73,7 +73,7 @@ class ModelBuilder:
         # Compile the model
         model.compile(
             loss='categorical_crossentropy',  # Loss function suitable for multi-class classification
-            optimizer='rmsprop'  # RMSprop optimizer, generally good for recurrent neural networks
+            optimizer='adam'  # RMSprop optimizer, generally good for recurrent neural networks
         )
 
         print("Model created successfully")
