@@ -101,13 +101,13 @@ services:
     networks:
       - melodygenerator-net
     #platform: linux/arm64/v8
-    # deploy:
-    #   resources:
-    #     reservations:
-    #       devices:
-    #         - driver: nvidia
-    #           count: 1
-    #           capabilities: [gpu]
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
     stdin_open: true
     tty: true
     <<: *common-timezone
