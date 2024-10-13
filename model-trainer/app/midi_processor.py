@@ -1,5 +1,6 @@
 import os
-from music21 import converter, note, chord
+import random
+from music21 import converter, note, chord, interval, pitch
 import numpy as np
 from tensorflow.keras.utils import to_categorical
 
@@ -7,8 +8,8 @@ class MIDIProcessor:
     """
     A class for processing MIDI files and preparing data for the neural network.
 
-    This class provides methods to extract notes from MIDI files and prepare
-    sequences for input to the neural network model.
+    This class provides methods to extract notes from MIDI files, augment the data,
+    and prepare sequences for input to the neural network model.
     """
 
     def prepare_data(self, midi_directory):
@@ -16,13 +17,13 @@ class MIDIProcessor:
         Process MIDI files and extract notes and chords.
 
         This method walks through the specified directory, reads each MIDI file,
-        and extracts the notes and chords from them.
+        and extracts the notes and chords from them. It then augments the data.
 
         Args:
             midi_directory (str): Path to the directory containing MIDI files.
 
         Returns:
-            list: Extracted notes and chords from all MIDI files.
+            list: Extracted and augmented notes and chords from all MIDI files.
 
         Raises:
             ValueError: If no MIDI files are found or no notes can be extracted.
@@ -54,7 +55,40 @@ class MIDIProcessor:
         if not notes:
             raise ValueError("No notes were extracted from the MIDI files. Please check if the MIDI files are valid.")
 
-        return notes
+        # Augment the extracted notes
+        augmented_notes = self.augment_data(notes)
+        print(f"Total notes after augmentation: {len(augmented_notes)}")
+
+        return augmented_notes
+
+    def augment_data(self, notes, num_augmentations=2):
+        """
+        Augment the extracted notes by transposing them.
+
+        This method creates additional versions of the input notes by transposing
+        them up or down by a random interval.
+
+        Args:
+            notes (list): List of extracted notes and chords.
+            num_augmentations (int): Number of augmented versions to create.
+
+        Returns:
+            list: Original and augmented notes.
+        """
+        augmented_notes = [notes]
+        for _ in range(num_augmentations):
+            transposition = random.randint(-6, 6)  # Transpose up to a perfect fifth up or down
+            transposed_notes = []
+            for note_str in notes:
+                if '.' in note_str:  # It's a chord
+                    chord_notes = note_str.split('.')
+                    transposed_chord = [str(interval.Interval(transposition).transposePitch(pitch.Pitch(n))) for n in chord_notes]
+                    transposed_notes.append('.'.join(transposed_chord))
+                else:  # It's a single note
+                    transposed_note = str(interval.Interval(transposition).transposePitch(pitch.Pitch(note_str)))
+                    transposed_notes.append(transposed_note)
+            augmented_notes.append(transposed_notes)
+        return [note for sublist in augmented_notes for note in sublist]
 
     def prepare_sequences(self, notes, sequence_length=100):
         """

@@ -73,7 +73,7 @@ class ModelBuilder:
         # Compile the model
         model.compile(
             loss='categorical_crossentropy',  # Loss function suitable for multi-class classification
-            optimizer='adam'  # RMSprop optimizer, generally good for recurrent neural networks
+            optimizer='adam'  # Adam optimiser for training
         )
 
         print("Model created successfully")

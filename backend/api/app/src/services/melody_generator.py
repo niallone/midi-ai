@@ -156,7 +156,7 @@ async def generate_melody(model_id):
     current_app.logger.debug(f"Melody generation complete. File saved: {output_file}")
     return output_file
 
-async def _generate_notes(model, network_input, pitchnames, note_to_int, n_vocab, sequence_length=100, num_notes=500):
+async def _generate_notes(model, network_input, pitchnames, n_vocab, num_notes=500, temperature=1.0):
     """
     Generate a sequence of notes using the provided model.
 
@@ -176,7 +176,7 @@ async def _generate_notes(model, network_input, pitchnames, note_to_int, n_vocab
         A list of generated notes and chords.
     """
     # Start with a random sequence from the input data
-    start = np.random.randint(0, len(network_input) - 1)
+    start = np.random.randint(0, len(network_input)-1)
     int_to_note = dict((number, note) for number, note in enumerate(pitchnames))
     pattern = network_input[start]
     prediction_output = []
@@ -185,16 +185,21 @@ async def _generate_notes(model, network_input, pitchnames, note_to_int, n_vocab
     for _ in range(num_notes):
         prediction_input = np.reshape(pattern, (1, len(pattern), 1))
         prediction_input = prediction_input / float(n_vocab)
-
+        
         prediction = model.predict(prediction_input, verbose=0)
-
-        index = np.argmax(prediction)
+        
+        # Apply temperature scaling
+        prediction = np.log(prediction) / temperature
+        exp_preds = np.exp(prediction)
+        prediction = exp_preds / np.sum(exp_preds)
+        
+        index = np.random.choice(range(len(prediction[0])), p=prediction[0])
         result = int_to_note[index]
         prediction_output.append(result)
-
+        
         pattern = np.append(pattern, index)
         pattern = pattern[1:]
-
+    
     return prediction_output
 
 async def _create_midi(prediction_output, filename="generated_melody.mid"):
