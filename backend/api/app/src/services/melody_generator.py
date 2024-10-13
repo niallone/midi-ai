@@ -11,36 +11,15 @@ from tensorflow.keras import layers
 from music21 import instrument, note, stream, chord
 
 def custom_load_model(filepath):
-    """Custom model loading function to handle potential version incompatibilities."""
-    import h5py
+    """
+    Custom model loading function to handle potential version incompatibilities.
     
-    def remove_time_major(config):
-        if isinstance(config, dict):
-            return {k: remove_time_major(v) for k, v in config.items() if k != 'time_major'}
-        elif isinstance(config, list):
-            return [remove_time_major(item) for item in config]
-        else:
-            return config
-
-    with h5py.File(filepath, mode='r') as f:
-        model_config = f.attrs.get('model_config')
-        if isinstance(model_config, bytes):
-            model_config = model_config.decode('utf-8')
-        model_config = json.loads(model_config)
-        
-    # Remove 'time_major' from the entire model configuration
-    cleaned_config = remove_time_major(model_config)
+    Args:
+        filepath (str): Path to the .h5 model file.
     
-    # Create model from cleaned config
-    model = keras.models.model_from_json(json.dumps(cleaned_config))
-    
-    # Load weights
-    model.load_weights(filepath)
-    
-    return model
-
-def custom_load_model(filepath):
-    """Custom model loading function to handle potential version incompatibilities."""
+    Returns:
+        keras.Model: Loaded Keras model.
+    """
     import h5py
     
     def create_layer(layer_config):
@@ -67,6 +46,16 @@ def custom_load_model(filepath):
     return model
 
 async def get_available_models():
+    """
+    Asynchronously load available models from the configured model directory.
+    
+    Returns:
+        dict: A dictionary of loaded models and their associated data.
+    
+    Raises:
+        KeyError: If MODEL_DIR configuration is missing.
+        FileNotFoundError: If the model directory doesn't exist.
+    """
     current_app.logger.debug("Entering get_available_models function")
     current_app.logger.debug(f"Current app config: {current_app.config}")
 
@@ -109,7 +98,6 @@ async def get_available_models():
     current_app.logger.debug(f"Returning models: {list(models.keys())}")
     return models
 
-
 async def generate_melody(model_id):
     """
     Generate a new melody using the specified model.
@@ -140,11 +128,22 @@ async def generate_melody(model_id):
     current_app.logger.debug(f"network_input shape: {network_input.shape}")
     current_app.logger.debug(f"Number of unique pitches: {len(pitchnames)}")
 
-    n_vocab = len(pitchnames)  # Ensure n_vocab is an integer
+    if isinstance(n_vocab, dict):
+        current_app.logger.warning(f"n_vocab is a dictionary: {n_vocab}")
+        n_vocab = len(pitchnames)
+    elif not isinstance(n_vocab, (int, float)):
+        current_app.logger.warning(f"n_vocab is neither a number nor a dict: {n_vocab}")
+        n_vocab = len(pitchnames)
+
     current_app.logger.debug(f"Using n_vocab: {n_vocab}")
 
     current_app.logger.debug("Generating notes for the melody")
-    generated_notes = await _generate_notes(model, network_input, pitchnames, note_to_int, n_vocab)
+    try:
+        generated_notes = await _generate_notes(model, network_input, pitchnames, n_vocab)
+    except Exception as e:
+        current_app.logger.error(f"Error in _generate_notes: {str(e)}")
+        current_app.logger.error(traceback.format_exc())
+        raise
 
     current_app.logger.debug("Converting notes to MIDI")
     if 'OUTPUT_DIR' not in current_app.config:
@@ -174,25 +173,32 @@ async def _generate_notes(model, network_input, pitchnames, n_vocab, num_notes=5
         model: The trained Keras model.
         network_input: The input data used to train the model.
         pitchnames: A list of all unique pitches in the training data.
-        note_to_int: A dictionary mapping note strings to integers.
         n_vocab: The number of unique pitches.
-        sequence_length: The length of input sequences for the model.
         num_notes: The number of notes to generate.
+        temperature: Controls randomness in note selection.
 
     Returns:
         A list of generated notes and chords.
     """
-    # Start with a random sequence from the input data
     current_app.logger.debug(f"Entering _generate_notes. n_vocab: {n_vocab}")
     start = np.random.randint(0, len(network_input) - 1)
     int_to_note = dict((number, note) for number, note in enumerate(pitchnames))
     pattern = network_input[start]
     prediction_output = []
 
-    for _ in range(num_notes):
+    for note_index in range(num_notes):
         prediction_input = np.reshape(pattern, (1, len(pattern), 1))
-        prediction_input = prediction_input / float(n_vocab)
+        current_app.logger.debug(f"Note {note_index}: prediction_input shape: {prediction_input.shape}")
+        current_app.logger.debug(f"Note {note_index}: n_vocab: {n_vocab}, type: {type(n_vocab)}")
         
+        try:
+            prediction_input = prediction_input / float(n_vocab)
+        except Exception as e:
+            current_app.logger.error(f"Error in normalizing prediction_input: {str(e)}")
+            current_app.logger.error(f"n_vocab: {n_vocab}, type: {type(n_vocab)}")
+            current_app.logger.error(f"prediction_input: {prediction_input}")
+            raise
+
         prediction = model.predict(prediction_input, verbose=0)
         
         # Apply temperature scaling
