@@ -36,9 +36,16 @@ The AI Melody Generator currently uses the following models:
 - V3: Trained on about 200 Dance songs
 - V4: (Upcoming) To be trained on about 200 jazz songs
 
+### Model Training
+
+The `model-trainer` service is setup to be run on an NVIDIA H100. To run on local machine change the Dockerfile image to Python 10 and comment out the `deploy` section in the `docker-compose.yml`.
+
+The docker runtime can be configured to the NIVDIA runtime with the command `nvidia-ctk runtime configure --runtime=docker`.
+
+This should give the container access to the GPU. This can be tested by running `nvidia-smi` from the container.
 
 ## Known Issues
 
- - Sound on mobile needs to be tested, this may be a bug.
+ - Sound on mobile doesn't work due to midi compatibility on devices. Currently investigating mobile solution.
  - Play/pause with multiple files (Also play/pause on multiple files sequentially, and play/pause/generate combinations)
 
