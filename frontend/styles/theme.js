@@ -7,7 +7,7 @@ const theme = {
    * Colour palette for the application
    */
   colors: {
-    primary: '#82DEAF',
+    primary: '#4DA878',
     primaryDark: '#4E8A6B',
     secondary: '#ff4081',
     white: '#ffffff',
