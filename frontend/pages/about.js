@@ -18,18 +18,15 @@ export default function About() {
       <MainContent>
         <h1>About AI Melody Generator</h1>
         <p>
-          The AI Melody Generator is an application that uses artificial intelligence models that it trains
-          to create unique and inspiring melodies. The goal is to provide musicians, composers,
-          and music enthusiasts with a tool that can spark creativity and provide new musical ideas.
+          The AI Melody Generator is an application that uses artificial intelligence models that it trains to create unique and inspiring melodies. 
+          The goal is to provide musicians, composers, and music enthusiasts with a tool that can spark creativity and provide new musical ideas.
         </p>
         <p>
-          Using state-of-the-art machine learning models, the application can generate melodies
-          in various styles and genres. Whether you&apos;re looking for inspiration for your next
-          composition or just curious about AI-generated music, this tool is here to help.
+          Using machine learning models, the application can generate melodies in various styles and genres. 
+          Whether you&apos;re looking for inspiration for your next composition or just curious about AI-generated music, this tool is here to help.
         </p>
         <p>
-          I&apos;m constantly improving the models and adding new features to enhance the
-          music creation experience. Stay tuned for updates and new capabilities.
+          I&apos;m constantly improving the models and adding new features to enhance the music creation experience. Stay tuned for updates and new capabilities.
         </p>
         <h3>About the Models</h3>
         <strong>V1</strong>
@@ -38,9 +35,12 @@ export default function About() {
         <p>Version 2 was trained on 25 R&B/90s Hip Hop songs and is the model that generates the most variety of notes.</p>
         <strong>V3</strong>
         <p>Version 3 was trained on about 200 Dance songs. It produces little variety of notes.</p>
+        <strong>V4</strong>
+        <p>Version 4 will be trained on about 200 jazz songs.</p>
         <br/><br/>
         <p>
-          <strong>Note:</strong> The current models have deteriorated in variance of output. I am currently working on a new model v4, that will be trained on a larger and more varied dataset to improve the quality of the generated melodies.
+          <strong>Note:</strong> The current models have deteriorated in variance of output. 
+          I am currently working on a new model v4, that will be trained on a larger and more varied dataset to improve the quality of the generated melodies.
         </p>
       </MainContent>
 
