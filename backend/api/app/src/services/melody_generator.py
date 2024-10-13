@@ -136,8 +136,15 @@ async def generate_melody(model_id):
 
     model, network_input, pitchnames, note_to_int, n_vocab = models[model_id]
 
+    current_app.logger.debug(f"Model loaded. n_vocab: {n_vocab}, type: {type(n_vocab)}")
+    current_app.logger.debug(f"network_input shape: {network_input.shape}")
+    current_app.logger.debug(f"Number of unique pitches: {len(pitchnames)}")
+
+    n_vocab = len(pitchnames)  # Ensure n_vocab is an integer
+    current_app.logger.debug(f"Using n_vocab: {n_vocab}")
+
     current_app.logger.debug("Generating notes for the melody")
-    generated_notes = await _generate_notes(model, network_input, pitchnames, note_to_int, len(pitchnames))
+    generated_notes = await _generate_notes(model, network_input, pitchnames, note_to_int, n_vocab)
 
     current_app.logger.debug("Converting notes to MIDI")
     if 'OUTPUT_DIR' not in current_app.config:
@@ -176,12 +183,12 @@ async def _generate_notes(model, network_input, pitchnames, n_vocab, num_notes=5
         A list of generated notes and chords.
     """
     # Start with a random sequence from the input data
-    start = np.random.randint(0, len(network_input)-1)
+    current_app.logger.debug(f"Entering _generate_notes. n_vocab: {n_vocab}")
+    start = np.random.randint(0, len(network_input) - 1)
     int_to_note = dict((number, note) for number, note in enumerate(pitchnames))
     pattern = network_input[start]
     prediction_output = []
 
-    # Generate notes
     for _ in range(num_notes):
         prediction_input = np.reshape(pattern, (1, len(pattern), 1))
         prediction_input = prediction_input / float(n_vocab)
@@ -200,6 +207,7 @@ async def _generate_notes(model, network_input, pitchnames, n_vocab, num_notes=5
         pattern = np.append(pattern, index)
         pattern = pattern[1:]
     
+    current_app.logger.debug(f"Notes generated. Length: {len(prediction_output)}")
     return prediction_output
 
 async def _create_midi(prediction_output, filename="generated_melody.mid"):

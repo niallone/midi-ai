@@ -82,11 +82,23 @@ class MIDIProcessor:
             for note_str in notes:
                 if '.' in note_str:  # It's a chord
                     chord_notes = note_str.split('.')
-                    transposed_chord = [str(interval.Interval(transposition).transposePitch(pitch.Pitch(n))) for n in chord_notes]
-                    transposed_notes.append('.'.join(transposed_chord))
+                    transposed_chord = []
+                    for n in chord_notes:
+                        if n.strip():  # Check if the note is not empty
+                            try:
+                                transposed_note = str(interval.Interval(transposition).transposePitch(pitch.Pitch(n)))
+                                transposed_chord.append(transposed_note)
+                            except Exception as e:
+                                print(f"Error transposing note {n}: {str(e)}")
+                    if transposed_chord:
+                        transposed_notes.append('.'.join(transposed_chord))
                 else:  # It's a single note
-                    transposed_note = str(interval.Interval(transposition).transposePitch(pitch.Pitch(note_str)))
-                    transposed_notes.append(transposed_note)
+                    if note_str.strip():  # Check if the note is not empty
+                        try:
+                            transposed_note = str(interval.Interval(transposition).transposePitch(pitch.Pitch(note_str)))
+                            transposed_notes.append(transposed_note)
+                        except Exception as e:
+                            print(f"Error transposing note {note_str}: {str(e)}")
             augmented_notes.append(transposed_notes)
         return [note for sublist in augmented_notes for note in sublist]
 
