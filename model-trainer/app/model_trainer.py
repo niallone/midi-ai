@@ -1,4 +1,6 @@
 import tensorflow as tf
+import os
+import pickle
 
 class ModelTrainer:
     """
@@ -16,7 +18,7 @@ class ModelTrainer:
         """
         self.model = model
 
-    async def train(self, network_input, network_output, model_path, epochs=50, batch_size=64):
+    async def train(self, network_input, network_output, model_path, epochs=50, batch_size=64, pitchnames=None, note_to_int=None):
         """
         Train the neural network model.
 
@@ -59,3 +61,9 @@ class ModelTrainer:
         # Save the trained model
         self.model.save(model_path)
         print(f"Model saved to {model_path}")
+
+        # Save additional data to a pickle file
+        pickle_path = f"{model_path}_data.pkl"
+        with open(pickle_path, 'wb') as f:
+            pickle.dump((network_input, pitchnames, note_to_int, len(pitchnames)), f)
+        print(f"Additional data saved to {pickle_path}")

@@ -58,7 +58,7 @@ async def main():
     # Create an instance of the ModelTrainer and train the model
     print("Training the model...")
     trainer = ModelTrainer(model)
-    await trainer.train(network_input, network_output, model_path, config.EPOCHS, config.BATCH_SIZE)
+    await trainer.train(network_input, network_output, model_path, config.EPOCHS, config.BATCH_SIZE, pitchnames, note_to_int)
 
     print("Model training complete.")
 
