@@ -2,7 +2,7 @@
 
 ## Overview
 
-AI Melody Generator is a web application that trains and uses artificial intelligence neural networks to create unique musical melodies. The project consists of a React-based frontend, a Flask-based backend API, and a model trainer component. 
+AI Melody Generator is a web application that trains and uses artificial intelligence neural networks to create unique musical melodies. The project consists of a Next/React-based frontend, a Quart/Flask-based backend API, and a model trainer component. 
 
 You can try it out at [melodygenerator.fun](https://melodygenerator.fun).
 
@@ -16,7 +16,7 @@ You can try it out at [melodygenerator.fun](https://melodygenerator.fun).
 ## Technology Stack
 
 - Frontend: React, Next.js
-- Backend: Quart/Flask (Python)
+- Backend: Hypercorn WSGI/Quart/Flask (Python)
 - AI: TensorFlow, Keras
 - Database: PostgreSQL
 - Containerisation: Docker Compose
@@ -24,17 +24,9 @@ You can try it out at [melodygenerator.fun](https://melodygenerator.fun).
 ## Project Structure
 
 - `frontend/`: React frontend application
-- `backend/`: Flask API and model serving
+- `backend/`: Flask API and Postgres
 - `model-trainer/`: Scripts for training melody generation models
 - `models/`: Trained AI models and training data
-
-## Getting Started
-
-### Prerequisites
-
-- Docker and Docker Compose
-- Node.js and npm (for local frontend development)
-- Python 3.10+ (for local backend development)
 
 ## Models
 
