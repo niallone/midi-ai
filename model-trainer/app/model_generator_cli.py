@@ -21,6 +21,8 @@ try:
     print("Importing tensorflow...")
     import tensorflow as tf
     print(f"TensorFlow version: {tf.__version__}")
+    print(tf.test.is_built_with_cuda())
+    print(tf.config.list_physical_devices('GPU'))
     print("TensorFlow imported successfully")
 
     print("Importing music21...")

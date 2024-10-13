@@ -1,7 +1,7 @@
-FROM python:3.10-slim
+#FROM python:3.10-slim
 
 # For H100 training
-#FROM FROM tensorflow/tensorflow:2.12.0-gpu
+FROM tensorflow/tensorflow:2.12.0-gpu
 
 WORKDIR /app
 
@@ -17,3 +17,5 @@ COPY ./app .
 CMD ["python", "model_generator_cli.py", "/app/input", "/app/model"]
 
 
+
+# sudo nvidia-ctk runtime configure --runtime=docker
