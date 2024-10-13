@@ -18,7 +18,9 @@ if __name__ == "__main__":
     # 4050 is the port number the server will listen on
     config.bind = ["0.0.0.0:4050"]
 
-    config.timeout = int(os.getenv('HYPERCORN_TIMEOUT', 300)) # 5 minutes
+    # Timeout configuration
+    # 5 minutes (300 seconds) is the default timeout
+    config.timeout = int(os.getenv('HYPERCORN_TIMEOUT', 300))
     
     # Run the Hypercorn ASGI server with our Quart app
     # hypercorn.asyncio.serve is an async function, so we use asyncio.run()

@@ -36,10 +36,6 @@ The AI Melody Generator currently uses the following models:
 - V3: Trained on about 200 Dance songs
 - V4: (Upcoming) To be trained on about 200 jazz songs
 
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
 
 ## Known Issues
 
