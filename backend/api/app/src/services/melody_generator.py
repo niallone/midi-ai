@@ -137,7 +137,7 @@ async def generate_melody(model_id):
     model, network_input, pitchnames, note_to_int, n_vocab = models[model_id]
 
     current_app.logger.debug("Generating notes for the melody")
-    generated_notes = await _generate_notes(model, network_input, pitchnames, note_to_int, n_vocab)
+    generated_notes = await _generate_notes(model, network_input, pitchnames, note_to_int, len(pitchnames))
 
     current_app.logger.debug("Converting notes to MIDI")
     if 'OUTPUT_DIR' not in current_app.config:
