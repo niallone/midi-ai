@@ -32,9 +32,10 @@ You can try it out at [melodygenerator.fun](https://melodygenerator.fun).
 
 The AI Melody Generator currently uses the following models:
 
-- V2: Trained on 25 R&B/90s Hip Hop songs
-- V3: Trained on about 200 Dance songs
-- V4: (Upcoming) To be trained on about 200 jazz songs
+- V2: Trained on 25 R&B/90s hip hp songs
+- V3: Trained on about 200 dance songs
+- V4: Trained on about 180 jazz songs
+- V5: Trained on 275 Songs from various genres and decades.
 
 ### Model Training
 

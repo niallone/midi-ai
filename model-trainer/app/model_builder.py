@@ -36,7 +36,7 @@ class ModelBuilder:
             input_shape=(network_input.shape[1], network_input.shape[2]),
             return_sequences=True  # Return full sequence
         ))
-        # This layer processes the input sequence and returns sequences of 256-dimensional vectors
+        # This layer processes the input sequence and returns sequences of 512-dimensional vectors
 
         # Dropout layer for regularisation
         model.add(Dropout(0.3))
@@ -44,7 +44,7 @@ class ModelBuilder:
 
         # Second LSTM layer
         model.add(LSTM(
-            512,  # Increase the number of LSTM units
+            512,  # Number of LSTM units
             return_sequences=True
         ))
         # This layer processes the sequences from the previous layer, creating more complex representations
@@ -54,7 +54,7 @@ class ModelBuilder:
 
         # Third LSTM layer
         model.add(LSTM(512))  # No return_sequences=True here
-        # This final LSTM layer returns only the last output, not the full sequence
+       # This layer processes the sequences from the previous layer, creating more complex representations
 
         # Dense layer
         model.add(Dense(256))
